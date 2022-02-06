@@ -1,6 +1,15 @@
 #include "MCTS.h"
 #include <unistd.h>
 
+void printMove(int action) {
+    if (action != -1) {
+        std::cout << "Chosen move: " << '(' << action / 8 << ',' << mod(action,8) << ')' << std::endl;
+    }
+    else {
+        std::cout << "Chosen move: (0,-1)" << std::endl;
+    }
+}
+
 int main()
 {
     int play_mode;
@@ -25,7 +34,7 @@ int main()
 
                 m.get_move(opp_action,action);
 
-                std::cout << "Chosen move: " << '(' << action / 8 << ',' << mod(action,8) << ')' << std::endl;
+                printMove(action);
                 winner = o.make_move_self(action);
 
                 if (winner != -1) {
@@ -84,7 +93,7 @@ int main()
                 
                 m.get_move(opp_action,action);
 
-                std::cout << "Chosen move: " << '(' << action / 8 << ',' << mod(action,8) << ')' << std::endl;
+                printMove(action);
                 winner = o.make_move_self(action);
 
                 if (winner != -1) {
@@ -132,7 +141,7 @@ int main()
 
                 m.get_move(action2,action1);
 
-                std::cout << "Chosen move: " << '(' << action1 / 8 << ',' << mod(action1,8) << ')' << std::endl;
+                printMove(action1);
                 winner = o.make_move_self(action1);
 
                 if (winner != -1) {
@@ -147,7 +156,7 @@ int main()
 
                 m2.get_move(action1,action2);
 
-                std::cout << "Chosen move: " << '(' << action2 / 8 << ',' << mod(action2,8) << ')' << std::endl;
+                printMove(action2);
                 winner = o.make_move_self(action2);
 
                 if (winner != -1) {
@@ -164,49 +173,3 @@ int main()
         break;
     }
 }
-
-/*
-int main()
-{
-    TicTacToes t(1);
-    MCTS m(&t,1);
-    if (!m.m_visited_states.contains(m.m_game->m_state))
-    {
-        Node *node_ptr = &m.pool[++m.m_node_pos];
-        m.m_game->compute_possible_moves(m.m_game->m_board1|m.m_game->m_board2,m.m_game->m_summary_board_all,m.m_game->m_true_last_board_pos,node_ptr->m_possible_moves);
-        node_ptr->set_values(m.m_node);
-        m.m_visited_states[m.m_game->m_state] = node_ptr;
-    }
-    m.m_node = m.m_visited_states[m.m_game->m_state];
-
-    m.run_simulation();
-}
-*/
-
-/*
-// Speed test
-int main()
-{
-    int n;
-    std::cout << "Number of repetitions: ";
-    std::cin >> n;
-
-    ProgressBar bar(std::cout);
-    bar.init();
-
-    TicTacToes t(1);
-
-    int s=0;
-    for (int i=0;i<n;++i)
-    {
-        MCTS m(&t,1);
-        s += m.get_move_test();
-
-        bar.update(i, n);
-    }
-    std::cout << std::endl;
-    std::cout << "Average number of games: " << (double)s/n << std::endl;
-    return 0;
-}
-*/
-

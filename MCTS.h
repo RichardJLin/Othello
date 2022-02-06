@@ -34,7 +34,7 @@ public:
 
     // Nodes of the tree are preallocated as creation and deletion can be expensive
     //Node pool[5000000];
-    Node *pool = new Node[5000000];
+    Node *pool = new Node[10000000]; // Should be enough unless your computer is very fast
     Node *m_pool_ptr = &pool[0]; // Pointer to the pool
     Node *m_node_ptr = nullptr; // Current node pointer
 
@@ -48,7 +48,7 @@ public:
     int get_num_move_sim();
     // Returns a move based on num_move (RNG for random move)
     void get_move_sim(uint64_t state1, uint64_t state2, int player, int num_move, int &action, int &tot_moves);
-
+    // Run the MCTS
     void get_move(int opp_action, int &action);
 };
 

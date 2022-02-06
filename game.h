@@ -16,6 +16,7 @@ class Othello
     uint64_t m_state1, m_state2;
     int m_current_player;
     
+    // Shift the board towards a direction 
     uint64_t shift(uint64_t board, int direction) const;
     // Updates boards and return the winner if available
     int make_move(int move, uint64_t &state1, uint64_t &state2, int &player);

@@ -21,12 +21,16 @@ MCTS::~MCTS() {
 
 void MCTS::get_move_sim(uint64_t state1, uint64_t state2, int player, int num_move, int &action, int &tot_moves) {
     uint64_t avail_moves = m_game_ptr->possible_moves(state1, state2, player);
+    //assert(!(state1 & state2));
     tot_moves = __builtin_popcountll(avail_moves);
     // End game or skip turn
     if (tot_moves) {
         action = __builtin_ctzll(_pdep_u64(1ULL << mod(num_move, tot_moves), avail_moves));
     }
-    // else already action = -1
+    // Skip turns
+    else {
+        action = -1;
+    }
 }
 
 int MCTS::get_num_move_sim()
@@ -85,6 +89,8 @@ void MCTS::run_simulation()
                 // Case when no legal moves available
                 if (!tot_moves) {
                     tot_moves = 1;
+                    //assert(action == -1);
+                    //assert(target_pos == 0);
                 }
 
                 if (target_pos == tot_moves - 1) {
@@ -99,14 +105,18 @@ void MCTS::run_simulation()
 
                 expand_further = 1;
             }
-            // This means expand_further = True; we need to keep it for endgame cases
+            // This means expand_further = True
             else {
                 expand_further = 0;
                 int tot_moves;
-                get_move_sim(state1, state2, player, 0, action, tot_moves);
+                get_move_sim(state1, state2, player, gen(), action, tot_moves);
 
                 node_ptr->childrenBegin = m_pool_ptr;
                 node_ptr->childrenEnd = m_pool_ptr;
+                // If no valid moves, dummy child to store that no actions could be made
+                if (!tot_moves) {
+                    tot_moves = 1;
+                }
                 m_pool_ptr += tot_moves;
 
                 node_ptr = nullptr;
@@ -191,7 +201,6 @@ void MCTS::get_move(int opp_action, int &action) {
         m_pool_ptr += std::max(get_num_move_sim(), 1);
     }
 
-    
     // Run the MCTS
     int num_iter = 0;
     Clock::time_point start_time = Clock::now();
@@ -201,20 +210,6 @@ void MCTS::get_move(int opp_action, int &action) {
         run_simulation();
         ++num_iter;
     }
-    
-    
-    /*
-    int num_iter = 0;
-    Clock::time_point start_time = Clock::now();
-
-    while (num_iter < 50)
-    {
-        run_simulation();
-        ++num_iter;
-    }
-    */
-    
-
 
     Clock::time_point end_time = Clock::now();
     std::cout << "Number of iterations: " << num_iter << " Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time).count() << std::endl;
@@ -222,6 +217,8 @@ void MCTS::get_move(int opp_action, int &action) {
 
     float win_ratio = -1;
     Node *new_ptr = nullptr;
+    // In case of no legal moves
+    action = -1;
     for (auto i=m_node_ptr->childrenBegin;i<m_node_ptr->childrenEnd;++i)
     {
         float m = i->m_wins / i->m_visits;
@@ -232,8 +229,6 @@ void MCTS::get_move(int opp_action, int &action) {
             new_ptr = i;
         }
     }
-    //std::cout << (*m_node_ptr) << std::endl;
     m_node_ptr = new_ptr;
-    //std::cout << "Expected victory chances:" << win_ratio << std::endl;
     return ;
 }

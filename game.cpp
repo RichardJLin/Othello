@@ -159,12 +159,20 @@ std::ostream& operator<<(std::ostream& os, const Othello& othello) {
         }
         else if (moves >> i & 1) {
             os << '*';
-            movesStr.append(std::to_string(i));
+            movesStr.push_back('(');
+            movesStr.append(std::to_string(i/8));
+            movesStr.push_back(',');
+            movesStr.append(std::to_string(i%8));
+            movesStr.push_back(')');
             movesStr.push_back(' ');
         }
         else {
             os << '.';
         }
+    }
+    // No valid moves
+    if (!movesStr.size()) {
+        movesStr.append("(0,-1)");
     }
     os << '\n' << "Possible moves: " << movesStr << '\n';
     return os;
