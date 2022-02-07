@@ -24,9 +24,8 @@ public:
     int m_MCTS_player; // 0 or 1
     //Units m_calculation_time = std::chrono::duration_cast<Units>(std::chrono::milliseconds(100));
     float m_calculation_time = 100;
-    int m_max_iter = 61;
+    int m_max_iter = 100;
     float m_C = 1.4;
-    int m_max_depth = 0;
 
     // Eventually map to a set depending on the constrainsts
     //robin_hood::unordered_map<long long int,Node*> m_visited_states;

@@ -66,7 +66,9 @@ uint64_t Othello::possible_moves(uint64_t state1, uint64_t state2, int player) c
 }
 
 int Othello::make_move(int move, uint64_t &state1, uint64_t &state2, int &player) {
-
+    // Check if move possible
+    uint64_t pm = possible_moves(state1, state2, player);
+    assert((move == -1 && !pm) || (pm & 1ULL << move));
     if (move != -1) {
         uint64_t &currentState = player ? state1 : state2;
         uint64_t &oppState = player ? state2 : state1;
@@ -95,7 +97,7 @@ int Othello::make_move(int move, uint64_t &state1, uint64_t &state2, int &player
     player ^= 1;
 
     // Unfinished game
-    if (possible_moves(state1, state2, 0) | possible_moves(state1, state2, 1)) {
+    if (pm | possible_moves(state1, state2, player)) {
         return -1;
     }
     else {

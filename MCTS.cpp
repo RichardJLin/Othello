@@ -9,7 +9,6 @@ int mod(int k, int n) {
     return ((k %= n) < 0) ? k+n : k;
 }
 
-
 MCTS::MCTS(Othello *game, int MCTS_player) {
     m_game_ptr = game;
     m_MCTS_player = MCTS_player;
@@ -149,8 +148,6 @@ void MCTS::run_simulation()
         sim_path.push_back(node_ptr);
     }
 
-    //std::cout << "Path size:" << sim_path.size() << std::endl;
-
     // Update values from path
     if (winner == m_MCTS_player) {   
         for (auto i=0;i<sim_path.size();++i) {
@@ -171,10 +168,7 @@ void MCTS::run_simulation()
     }
 }
 
-void MCTS::get_move(int opp_action, int &action) {
-    //grid, action are new moves
-    m_max_depth = 0;
-    
+void MCTS::get_move(int opp_action, int &action) { 
     // Create a dummy node
     bool new_state = true;
 

@@ -167,7 +167,49 @@ int main()
             }
         }
         break;
-    
+
+    case 5 : 
+    {
+        int wins0(0), wins1(0), draws(0);
+        for (int i=0;i<100;++i) {
+            Othello o;
+            MCTS m(&o,1);
+            MCTS m2(&o,0);
+            int action1(-1), action2(-1), winner;
+            
+            while (true) {
+
+                m.get_move(action2,action1);
+                winner = o.make_move_self(action1);
+
+                if (winner != -1) {
+                    break;
+                }       
+
+                m2.get_move(action1,action2);
+                winner = o.make_move_self(action2);
+
+                if (winner != -1) {
+                    break;
+                }
+            }
+            switch (winner) {
+                case 0:
+                    ++wins0;
+                    break;
+                case 1:
+                    ++wins1;
+                    break;
+                default:
+                    ++draws;
+                    break;
+            }
+        }
+        std::cout << "P1: " << wins1 << "\nP2: " << wins0 << "\nDraws: " << draws << std::endl;
+
+    }
+        break;
+
     default:
         std::cout << "Unavailable\n";
         break;
