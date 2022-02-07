@@ -9,7 +9,7 @@ sudo chmod 755 {path/to/main}
 ```
 
 
-in the terminal and then open it (double click).
+in the terminal and then open it (right click > open).
 
 To play the game, you just need to enter the row then the column where you wish to play. Each turn the possible moves will be printed out.
 
@@ -174,10 +174,12 @@ To be clear, MCTS is not specific to multiplayer games; in fact it can be used i
 As stated before, the main difficulty of MCTS is to balance exploitation vs exploration. For those who are a bit familiar with Reinforcement Learning, this will sound very familiar. In fact, MCTS could be considered as a very bare-bones RL algorithm, with different rewards given at the end of a rollout. 
 
 This tradeoff is achieved by using the UCB1 formula :
+<!-- $
 \begin{equation*}
 \frac{w_i}{n_i} + c \sqrt{\frac{\log N_i}{n_i}},
 \end{equation*}
-where $w_i$ represents the number of wins, $n_i$ the number of visits, $N_i$ the number of visit of the parent and $c$ and exploration parameter. Theoretically $c = \sqrt{2}$, but in practice, it is tuned for each specific game. For fully visited nodes, we choose the move maximizing this expression.
+$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/opcga1uHXe.svg">
+where <!-- $w_i$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/EvzeBJCmOS.svg"> represents the number of wins, <!-- $n_i$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/wLRtHukpjJ.svg"> the number of visits, <!-- $N_i$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/trvMS3g3T9.svg"> the number of visit of the parent and <!-- $c$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/NLIpIIohpU.svg"> and exploration parameter. Theoretically <!-- $c = \sqrt{2}$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/MM89DtShml.svg">, but in practice, it is tuned for each specific game. For fully visited nodes, we choose the move maximizing this expression.
 
 This formula is supposed to minimise the regret (difference between current rewards and what could have been obtained by using the best knows strategy) and was derived for the multi-armed bandit first.
 
