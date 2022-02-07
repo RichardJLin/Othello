@@ -191,5 +191,3 @@ Many variants of MCTS exist. One perhaps easy to implement is the MCTS-solver. I
 https://www.hanshq.net/othello.html : A very interesting website that also tackle how to write a working application for different platforms.
 
 http://radagast.se/othello/howto.html : Some insights about heuristic functions.
-
-
