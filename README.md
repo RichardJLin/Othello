@@ -20,6 +20,7 @@ Note that if you increase the allowed simulated time, you might get segmentation
 ## Othello : The game
 Othello, also known as Reversi, is a two players board game. It was invented in 1883.
 The game is played on a 8 x 8 board, the aim is to capture more pieces than the other player. The starting position is the following :
+<!-- $
 \begin{bmatrix}
 .&.&.&.&.&.&.&. \\
 .&.&.&.&.&.&.&. \\
@@ -30,10 +31,12 @@ The game is played on a 8 x 8 board, the aim is to capture more pieces than the 
 .&.&.&.&.&.&.&. \\
 .&.&.&.&.&.&.&. \\
 \end{bmatrix}
+$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/0cKXkrUaFV.svg">
 Black (X) has the first move.
 
 A player can capture adjacent opponent pieces in straight lines (horizontal, vertical, diagonal) if the pieces are adjacent and there is an empty cell at the end on the line.
 For example, on the following position, black (X) is to move. The possible cells are marked by *.
+<!-- $
 \begin{bmatrix}
 .&.&.&.&.&.&.&. \\
 .&.&*&.&.&X&.&. \\
@@ -44,6 +47,7 @@ For example, on the following position, black (X) is to move. The possible cells
 .&.&.&.&.&.&.&. \\
 .&.&.&.&.&.&.&. \\
 \end{bmatrix}
+$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/SDxPMY5E6i.svg">
 
 It is possible that no legal moves are available; in this case, the player skips their turn.
 The game ends when no players has any legal moves left, and the side with the most pieces wins.
@@ -59,6 +63,7 @@ It is all the more convenient as it is exactly the number of cases !
 For bigger boards, it would be possibe to use multiple integers to represent them, however with more edge cases to handle.
 
 In bitboards, we map a bit to a case. In our case we use the following mapping.
+<!-- $
 \begin{bmatrix}
 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\
@@ -69,6 +74,7 @@ In bitboards, we map a bit to a case. In our case we use the following mapping.
 48 & 49 & 50 & 51 & 52 & 53 & 54 & 55 \\
 56 & 57 & 58 & 59 & 60 & 61 & 62 & 63 \\
 \end{bmatrix}
+$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/DdpLDZ4xwv.svg">
 
 Using bitboards has many advantages: they are very convenient for moves generation, wins conditions checking etc., thanks to bitwise operations.
 Furthermore, those operations tend to be fast, and can often be optimised by the use of intrinsic functions. Finally, as they are very small, they are convenient for simulations, as making a copy is inexpensive.
@@ -81,36 +87,48 @@ Algorithmically, to find the possible moves, we need to do for each direction:
 2. Continue in straight line while there are opponent pieces.
 3. Check if there is an empty space at the end.
 
-Here is the procedure for checking the SO direction from the state above.  
+Here is the procedure for checking the E direction from the state above.  
 Dots replace 0 for clarity; - are masked values.  
 Step 1 :
+<!-- $
 \begin{equation*}
 \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&1&.&. \\.&.&.&.&1&.&.&. \\.&.&1&.&.&.&.&. \\.&.&.&1&.&.&.&. \\ .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \end{bmatrix} << 1 = \begin{bmatrix} .&.&.&.&.&.&.&. \\ -&.&.&.&.&.&1&. \\-&.&.&.&.&1&.&. \\-&.&.&1&.&.&.&. \\-&.&.&.&1&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \end{bmatrix}
 \end{equation*}
+$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/krkhGVKiGo.svg">
 
+<!-- $
 \begin{equation*}
 \begin{bmatrix} .&.&.&.&.&.&.&. \\ -&.&.&.&.&.&1&. \\-&.&.&.&.&1&.&. \\-&.&.&1&.&.&.&. \\-&.&.&.&1&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \end{bmatrix} \& \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&1&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} = \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&.&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix}
 \end{equation*}
+$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/6ihizx5oQq.svg">
 These two bits are the ones adjacent to the player in the E direction.
 
 Step 2 :
 Repeat 6 times (because maximum length possible) the following operation :
+<!-- $
 \begin{equation*}
 \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&.&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} << 1 \quad \& \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&1&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} \quad = \quad \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix}
 \end{equation*}
+$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/6o69QqYfKk.svg">
 In this case repeating will not add any more pieces.
 
 Step 3 :
+<!-- $
 \begin{equation*}
 \text{Empty cells} = \verb!~! (\text{Board X} | \text{Board O})
 \end{equation*}
+$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/Tr5A9nuvyb.svg">
+<!-- $
 \begin{equation*}
 \text{Empty cells} = \begin{bmatrix}
 1&1&1&1&1&1&1&1 \\1&1&1&1&1&.&1&1 \\1&1&.&1&.&1&1&1 \\1&1&.&.&.&1&1&1 \\1&1&1&.&.&1&1&1 \\1&1&1&1&1&1&1&1 \\1&1&1&1&1&1&1&1 \\1&1&1&1&1&1&1&1 \\\end{bmatrix}
 \end{equation*}
+$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/ElLaoQwenC.svg">
+<!-- $
 \begin{equation*}
 \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} << 1 \quad \& \begin{bmatrix} 1&1&1&1&1&1&1&1 \\1&1&1&1&1&.&1&1 \\1&1&.&1&.&1&1&1 \\1&1&.&.&.&1&1&1 \\1&1&1&.&.&1&1&1 \\1&1&1&1&1&1&1&1 \\1&1&1&1&1&1&1&1 \\1&1&1&1&1&1&1&1 \end{bmatrix}\quad = \quad\begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&1&.&. \\.&.&.&.&.&1&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix}
 \end{equation*}
+$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/A6JgV4yXKK.svg">
 Finally, we obtained two possible moves on the E direction. To obtain all the moves, we repeat in each direction. Note that this process could be parallelized over each direction as they are independent.
 
 ### Applying a move
