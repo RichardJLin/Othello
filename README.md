@@ -20,30 +20,15 @@ Note that if you increase the allowed simulated time, you might get segmentation
 ## Othello : The game
 Othello, also known as Reversi, is a two players board game. It was invented in 1883.
 The game is played on a 8 x 8 board, the aim is to capture more pieces than the other player. The starting position is the following :
-\begin{bmatrix}
-.&.&.&.&.&.&.&. \\
-.&.&.&.&.&.&.&. \\
-.&.&.&*&.&.&.&. \\
-.&.&*&O&X&.&.&. \\
-.&.&.&X&O&*&.&. \\
-.&.&.&.&*&.&.&. \\
-.&.&.&.&.&.&.&. \\
-.&.&.&.&.&.&.&. \\
-\end{bmatrix}
+
+<img alt="formula" src="https://render.githubusercontent.com/render/math?math=\begin{bmatrix}%20.%26.%26.%26.%26.%26.%26.%26.%20\\%20.%26.%26.%26.%26.%26.%26.%26.%20\\%20.%26.%26.%26*%26.%26.%26.%26.%20\\%20.%26.%26*%26O%26X%26.%26.%26.%20\\%20.%26.%26.%26X%26O%26*%26.%26.%20\\%20.%26.%26.%26.%26*%26.%26.%26.%20\\%20.%26.%26.%26.%26.%26.%26.%26.%20\\%20.%26.%26.%26.%26.%26.%26.%26.%20\\%20\end{bmatrix}" />
+
 Black (X) has the first move.
 
 A player can capture adjacent opponent pieces in straight lines (horizontal, vertical, diagonal) if the pieces are adjacent and there is an empty cell at the end on the line.
 For example, on the following position, black (X) is to move. The possible cells are marked by *.
-\begin{bmatrix}
-.&.&.&.&.&.&.&. \\
-.&.&*&.&.&X&.&. \\
-.&.&O&*&X&*&.&. \\
-.&.&X&O&O&*&.&. \\
-.&.&*&X&O&*&.&. \\
-.&.&.&.&*&.&.&. \\
-.&.&.&.&.&.&.&. \\
-.&.&.&.&.&.&.&. \\
-\end{bmatrix}
+
+<img alt="formula" src="https://render.githubusercontent.com/render/math?math=\begin{bmatrix}%20.%26.%26.%26.%26.%26.%26.%26.%20\\%20.%26.%26*%26.%26.%26X%26.%26.%20\\%20.%26.%26O%26*%26X%26*%26.%26.%20\\%20.%26.%26X%26O%26O%26*%26.%26.%20\\%20.%26.%26*%26X%26O%26*%26.%26.%20\\%20.%26.%26.%26.%26*%26.%26.%26.%20\\%20.%26.%26.%26.%26.%26.%26.%26.%20\\%20.%26.%26.%26.%26.%26.%26.%26.%20\\%20\end{bmatrix}" />
 
 It is possible that no legal moves are available; in this case, the player skips their turn.
 The game ends when no players has any legal moves left, and the side with the most pieces wins.
@@ -59,16 +44,8 @@ It is all the more convenient as it is exactly the number of cases !
 For bigger boards, it would be possibe to use multiple integers to represent them, however with more edge cases to handle.
 
 In bitboards, we map a bit to a case. In our case we use the following mapping.
-\begin{bmatrix}
-0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
-8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\
-16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 \\
-24 & 25 & 26 & 27 & 28 & 29 & 30 & 31 \\
-32 & 33 & 34 & 35 & 36 & 37 & 38 & 39 \\
-40 & 41 & 42 & 43 & 44 & 45 & 46 & 47 \\
-48 & 49 & 50 & 51 & 52 & 53 & 54 & 55 \\
-56 & 57 & 58 & 59 & 60 & 61 & 62 & 63 \\
-\end{bmatrix}
+
+<img alt="formula" src="https://render.githubusercontent.com/render/math?math=\begin{equation*}\begin{bmatrix}%200%20%26%201%20%26%202%20%26%203%20%26%204%20%26%205%20%26%206%20%26%207%20\\%208%20%26%209%20%26%2010%20%26%2011%20%26%2012%20%26%2013%20%26%2014%20%26%2015%20\\%2016%20%26%2017%20%26%2018%20%26%2019%20%26%2020%20%26%2021%20%26%2022%20%26%2023%20\\%2024%20%26%2025%20%26%2026%20%26%2027%20%26%2028%20%26%2029%20%26%2030%20%26%2031%20\\%2032%20%26%2033%20%26%2034%20%26%2035%20%26%2036%20%26%2037%20%26%2038%20%26%2039%20\\%2040%20%26%2041%20%26%2042%20%26%2043%20%26%2044%20%26%2045%20%26%2046%20%26%2047%20\\%2048%20%26%2049%20%26%2050%20%26%2051%20%26%2052%20%26%2053%20%26%2054%20%26%2055%20\\%2056%20%26%2057%20%26%2058%20%26%2059%20%26%2060%20%26%2061%20%26%2062%20%26%2063%20\\%20\end{bmatrix}%20\end{equation*}" />
 
 Using bitboards has many advantages: they are very convenient for moves generation, wins conditions checking etc., thanks to bitwise operations.
 Furthermore, those operations tend to be fast, and can often be optimised by the use of intrinsic functions. Finally, as they are very small, they are convenient for simulations, as making a copy is inexpensive.
@@ -81,36 +58,31 @@ Algorithmically, to find the possible moves, we need to do for each direction:
 2. Continue in straight line while there are opponent pieces.
 3. Check if there is an empty space at the end.
 
-Here is the procedure for checking the SO direction from the state above.  
+Here is the procedure for checking the E direction from the state above.  
 Dots replace 0 for clarity; - are masked values.  
 Step 1 :
-\begin{equation*}
-\begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&1&.&. \\.&.&.&.&1&.&.&. \\.&.&1&.&.&.&.&. \\.&.&.&1&.&.&.&. \\ .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \end{bmatrix} << 1 = \begin{bmatrix} .&.&.&.&.&.&.&. \\ -&.&.&.&.&.&1&. \\-&.&.&.&.&1&.&. \\-&.&.&1&.&.&.&. \\-&.&.&.&1&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \end{bmatrix}
-\end{equation*}
 
-\begin{equation*}
-\begin{bmatrix} .&.&.&.&.&.&.&. \\ -&.&.&.&.&.&1&. \\-&.&.&.&.&1&.&. \\-&.&.&1&.&.&.&. \\-&.&.&.&1&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \end{bmatrix} \& \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&1&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} = \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&.&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix}
-\end{equation*}
+<img src="http://www.sciweavers.org/tex2img.php?eq=%5Cbegin%7Bequation%2A%7D%5Cbegin%7Bbmatrix%7D%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20.%26.%26.%26.%26.%261%26.%26.%20%5C%5C.%26.%26.%26.%261%26.%26.%26.%20%5C%5C.%26.%261%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%261%26.%26.%26.%26.%20%5C%5C%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20.%26.%26.%26.%26.%26.%26.%26.%20%5Cend%7Bbmatrix%7D%20%3C%3C%201%20%3D%20%5Cbegin%7Bbmatrix%7D%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%261%26.%20%5C%5C-%26.%26.%26.%26.%261%26.%26.%20%5C%5C-%26.%26.%261%26.%26.%26.%26.%20%5C%5C-%26.%26.%26.%261%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%26.%26.%20%5Cend%7Bbmatrix%7D%5Cend%7Bequation%2A%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" align="center" border="0" alt="\begin{equation*}\begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&1&.&. \\.&.&.&.&1&.&.&. \\.&.&1&.&.&.&.&. \\.&.&.&1&.&.&.&. \\ .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \end{bmatrix} << 1 = \begin{bmatrix} .&.&.&.&.&.&.&. \\ -&.&.&.&.&.&1&. \\-&.&.&.&.&1&.&. \\-&.&.&1&.&.&.&. \\-&.&.&.&1&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \end{bmatrix}\end{equation*}" width="456" height="162" />
+
+<img src="http://www.sciweavers.org/tex2img.php?eq=%5Cbegin%7Bequation%2A%7D%0A%5Cbegin%7Bbmatrix%7D%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%261%26.%20%5C%5C-%26.%26.%26.%26.%261%26.%26.%20%5C%5C-%26.%26.%261%26.%26.%26.%26.%20%5C%5C-%26.%26.%26.%261%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%26.%26.%20%5Cend%7Bbmatrix%7D%20%5C%26%20%5Cbegin%7Bbmatrix%7D%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%261%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%261%261%26.%26.%26.%20%5C%5C.%26.%26.%26.%261%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5Cend%7Bbmatrix%7D%20%3D%20%5Cbegin%7Bbmatrix%7D%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%261%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%261%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5Cend%7Bbmatrix%7D%0A%5Cend%7Bequation%2A%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" align="center" border="0" alt="\begin{equation*}\begin{bmatrix} .&.&.&.&.&.&.&. \\ -&.&.&.&.&.&1&. \\-&.&.&.&.&1&.&. \\-&.&.&1&.&.&.&. \\-&.&.&.&1&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \end{bmatrix} \& \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&1&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} = \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&.&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix}\end{equation*}" width="599" height="162" />
+
 These two bits are the ones adjacent to the player in the E direction.
 
 Step 2 :
 Repeat 6 times (because maximum length possible) the following operation :
-\begin{equation*}
-\begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&.&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} << 1 \quad \& \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&1&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} \quad = \quad \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix}
-\end{equation*}
+
+<img src="http://www.sciweavers.org/tex2img.php?eq=%5Cbegin%7Bequation%2A%7D%0A%5Cbegin%7Bbmatrix%7D%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%261%26.%20%5C%5C-%26.%26.%26.%26.%261%26.%26.%20%5C%5C-%26.%26.%261%26.%26.%26.%26.%20%5C%5C-%26.%26.%26.%261%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20-%26.%26.%26.%26.%26.%26.%26.%20%5Cend%7Bbmatrix%7D%20%5C%26%20%5Cbegin%7Bbmatrix%7D%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%261%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%261%261%26.%26.%26.%20%5C%5C.%26.%26.%26.%261%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5Cend%7Bbmatrix%7D%20%3D%20%5Cbegin%7Bbmatrix%7D%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%261%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%261%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5Cend%7Bbmatrix%7D%0A%5Cend%7Bequation%2A%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" align="center" border="0" alt="\begin{equation*}\begin{bmatrix} .&.&.&.&.&.&.&. \\ -&.&.&.&.&.&1&. \\-&.&.&.&.&1&.&. \\-&.&.&1&.&.&.&. \\-&.&.&.&1&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \\ -&.&.&.&.&.&.&. \end{bmatrix} \& \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&1&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} = \begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&.&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix}\end{equation*}" width="599" height="162" />
+
 In this case repeating will not add any more pieces.
 
 Step 3 :
-\begin{equation*}
-\text{Empty cells} = \verb!~! (\text{Board X} | \text{Board O})
-\end{equation*}
-\begin{equation*}
-\text{Empty cells} = \begin{bmatrix}
-1&1&1&1&1&1&1&1 \\1&1&1&1&1&.&1&1 \\1&1&.&1&.&1&1&1 \\1&1&.&.&.&1&1&1 \\1&1&1&.&.&1&1&1 \\1&1&1&1&1&1&1&1 \\1&1&1&1&1&1&1&1 \\1&1&1&1&1&1&1&1 \\\end{bmatrix}
-\end{equation*}
-\begin{equation*}
-\begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} << 1 \quad \& \begin{bmatrix} 1&1&1&1&1&1&1&1 \\1&1&1&1&1&.&1&1 \\1&1&.&1&.&1&1&1 \\1&1&.&.&.&1&1&1 \\1&1&1&.&.&1&1&1 \\1&1&1&1&1&1&1&1 \\1&1&1&1&1&1&1&1 \\1&1&1&1&1&1&1&1 \end{bmatrix}\quad = \quad\begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&1&.&. \\.&.&.&.&.&1&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix}
-\end{equation*}
+
+<img alt="formula" src="https://render.githubusercontent.com/render/math?math=\begin{equation*}%20\text{Empty%20cells}%20=%20\verb!~!%20(\text{Board%20X}%20|%20\text{Board%20O})%20\end{equation*}" />
+
+<img alt="formula" src="https://render.githubusercontent.com/render/math?math=\begin{equation*}%20\text{Empty%20cells}%20=%20\begin{bmatrix}%201%261%261%261%261%261%261%261%20\\1%261%261%261%261%26.%261%261%20\\1%261%26.%261%26.%261%261%261%20\\1%261%26.%26.%26.%261%261%261%20\\1%261%261%26.%26.%261%261%261%20\\1%261%261%261%261%261%261%261%20\\1%261%261%261%261%261%261%261%20\\1%261%261%261%261%261%261%261%20\\\end{bmatrix}%20\end{equation*}" />
+
+<img src="http://www.sciweavers.org/tex2img.php?eq=%5Cbegin%7Bequation%2A%7D%0A%5Cbegin%7Bbmatrix%7D%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%261%261%26.%26.%26.%20%5C%5C.%26.%26.%26.%261%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5Cend%7Bbmatrix%7D%20%3C%3C%201%20%5Cquad%20%5C%26%20%5Cbegin%7Bbmatrix%7D%201%261%261%261%261%261%261%261%20%5C%5C1%261%261%261%261%26.%261%261%20%5C%5C1%261%26.%261%26.%261%261%261%20%5C%5C1%261%26.%26.%26.%261%261%261%20%5C%5C1%261%261%26.%26.%261%261%261%20%5C%5C1%261%261%261%261%261%261%261%20%5C%5C1%261%261%261%261%261%261%261%20%5C%5C1%261%261%261%261%261%261%261%20%5Cend%7Bbmatrix%7D%5Cquad%20%3D%20%5Cquad%5Cbegin%7Bbmatrix%7D%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C%20.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%261%26.%26.%20%5C%5C.%26.%26.%26.%26.%261%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5C%5C.%26.%26.%26.%26.%26.%26.%26.%20%5Cend%7Bbmatrix%7D%0A%5Cend%7Bequation%2A%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" align="center" border="0" alt="\begin{equation*}\begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&1&1&.&.&. \\.&.&.&.&1&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix} << 1 \quad \& \begin{bmatrix} 1&1&1&1&1&1&1&1 \\1&1&1&1&1&.&1&1 \\1&1&.&1&.&1&1&1 \\1&1&.&.&.&1&1&1 \\1&1&1&.&.&1&1&1 \\1&1&1&1&1&1&1&1 \\1&1&1&1&1&1&1&1 \\1&1&1&1&1&1&1&1 \end{bmatrix}\quad = \quad\begin{bmatrix} .&.&.&.&.&.&.&. \\ .&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&1&.&. \\.&.&.&.&.&1&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \\.&.&.&.&.&.&.&. \end{bmatrix}\end{equation*}" width="696" height="162" />
+
 Finally, we obtained two possible moves on the E direction. To obtain all the moves, we repeat in each direction. Note that this process could be parallelized over each direction as they are independent.
 
 ### Applying a move
