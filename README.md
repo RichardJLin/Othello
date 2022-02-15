@@ -5,7 +5,7 @@ To run this project, you can download only the executable "main" and run it on y
 
 
 ```python
-sudo chmod 755 {path/to/main}
+chmod 755 {path/to/main}
 ```
 
 
@@ -162,6 +162,7 @@ In each rollout, there are 4 phases :
 4. Backpropagation : Traverse all the visited nodes during the rollout and increment the values as needed. In the vanilla implementation, a win yields 1, a draw 0.5 and a loss 0.
 
 ![Steps of a MCTS rollout](docs/figs/MCTS.png)
+[wikipedia](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search)
 
 Note that Othello is a zero-sum game, in the sense that the advantage of a player is a disadvantage for the opponent. Hence, the need to only store wins and total number of games for a single player. In more sophisticated games, we may need to store different information for the players or to use different trees for each player.
 
@@ -171,7 +172,7 @@ To be clear, MCTS is not specific to multiplayer games; in fact it can be used i
 
 ### Upper Confidence Bound (UCB1)
 
-As stated before, the main difficulty of MCTS is to balance exploitation vs exploration. For those who are a bit familiar with Reinforcement Learning, this will sound very familiar. In fact, MCTS could be considered as a very bare-bones RL algorithm, with different rewards given at the end of a rollout. 
+As stated before, the main difficulty of MCTS is to balance exploitation vs exploration. For those who are a bit familiar with Reinforcement Learning, this will sound very familiar. In fact, MCTS could be considered as a very bare-bone RL algorithm, with different rewards given at the end of a rollout. 
 
 This tradeoff is achieved by using the UCB1 formula :
 <!-- $
